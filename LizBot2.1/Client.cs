@@ -7,10 +7,8 @@ using LizBot2._1.Interfaces;
 using LizBot2._1.Manager;
 using LizBot2._1.Services;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LizBot2._1
@@ -63,7 +61,6 @@ namespace LizBot2._1
             _discordClient.ConnectAsync();
         }
 
-        
 
         private void SetupVoiceFirst()
         {
@@ -110,6 +107,5 @@ namespace LizBot2._1
 
             return Task.CompletedTask;
         }
-
     }
 }
