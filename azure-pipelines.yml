@@ -33,5 +33,5 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- publish: $(build.artifactStagingDirectory)\WebApp.zip
+- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
   artifact: Application
