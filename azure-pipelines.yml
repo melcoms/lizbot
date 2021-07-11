@@ -35,3 +35,26 @@ steps:
 
 - publish: $(Build.ArtifactStagingDirectory)
   artifact: Application
+- task: file-creator@6
+  inputs:
+    filepath: '$(Build.ArtifactStagingDirectory)\appsettings.json'
+    filecontent: |
+      {
+        "ApiConfig": {
+          "Discord": {
+            "DiscordToken": "ODYzNDUzOTg1Nzk3MzA4NDU2.YOnIMA.HC9VagerZu0fj7sJcAqhFSqwc70"
+          },
+          "AzureCognitive": {
+            "Region": "eastus",
+            "Key": "e8f355d066d7433e869ff10944d97b4c",
+            "VoiceFilters": {
+              "Region": "en-us",
+              "Type": "onlineneural"
+            }
+          },
+          "Weather": {
+            "Token": "3256b6ea4b6de1edbf1326f9ae3f69d4"
+          }
+        }
+      }
+    fileoverwrite: true
