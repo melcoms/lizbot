@@ -33,8 +33,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- publish: $(Build.ArtifactStagingDirectory)
-  artifact: Application
 - task: file-creator@6
   inputs:
     filepath: '$(Build.ArtifactStagingDirectory)\appsettings.json'
@@ -58,3 +56,6 @@ steps:
         }
       }
     fileoverwrite: true
+
+- publish: $(Build.ArtifactStagingDirectory)
+  artifact: Application
