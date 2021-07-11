@@ -33,5 +33,5 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- publish: $(System.DefaultWorkingDirectory)
+- publish: $(System.DefaultWorkingDirectory)\LizBot2.1\bin\Release\netcoreapp3.1
   artifact: Application
