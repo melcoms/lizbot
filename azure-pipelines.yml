@@ -33,5 +33,5 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+- publish: $(System.DefaultWorkingDirectory)
   artifact: Application
