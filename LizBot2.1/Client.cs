@@ -74,38 +74,46 @@ namespace LizBot2._1
 
         private Task BaseCommandHandler(DiscordClient client, MessageCreateEventArgs e)
         {
-            var cnext = client.GetCommandsNext();
-            var msg = e.Message;
-            var prefix = "";
-            var cmdString = "";
-
-            var cmdStart = msg.GetStringPrefixLength("-");
-
-            if (cmdStart == -1)
+            try
             {
-                if (_userManager.IsUserLinkedToChannel(e.Author.Id, e.Channel))
+                var cnext = client.GetCommandsNext();
+                var msg = e.Message;
+                var prefix = "";
+                var cmdString = "";
+
+                var cmdStart = msg.GetStringPrefixLength("-");
+
+                if (cmdStart == -1)
                 {
-                    prefix = "-";
-                    cmdString = "t " + msg.Content;
+                    if (_userManager.IsUserLinkedToChannel(e.Author.Id, e.Channel))
+                    {
+                        prefix = "-";
+                        cmdString = "t " + msg.Content;
+                    }
+                    else
+                    {
+                        return Task.CompletedTask;
+                    }
                 }
                 else
                 {
-                    return Task.CompletedTask;
+                    prefix = msg.Content.Substring(0, cmdStart);
+                    cmdString = msg.Content.Substring(cmdStart);
                 }
+
+                var command = cnext.FindCommand(cmdString, out var args);
+                if (command == null) return Task.CompletedTask;
+
+                var ctx = cnext.CreateContext(msg, prefix, command, args);
+                Task.Run(async () => await cnext.ExecuteCommandAsync(ctx));
+
+                return Task.CompletedTask;
             }
-            else
+            catch
             {
-                prefix = msg.Content.Substring(0, cmdStart);
-                cmdString = msg.Content.Substring(cmdStart);
+                e.Channel.SendMessageAsync("Something went wrong...");
+                return Task.CompletedTask;
             }
-
-            var command = cnext.FindCommand(cmdString, out var args);
-            if (command == null) return Task.CompletedTask;
-
-            var ctx = cnext.CreateContext(msg, prefix, command, args);
-            Task.Run(async () => await cnext.ExecuteCommandAsync(ctx));
-
-            return Task.CompletedTask;
         }
     }
 }
