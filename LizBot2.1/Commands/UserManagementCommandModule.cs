@@ -55,7 +55,14 @@ namespace LizBot2._1.Commands
         [Description​Attribute("Link voice reader to you in the current channel. All normal messages you send will be read out.")]
         public async Task LinkUserCommand(CommandContext ctx)
         {
+            if (ctx.Member.VoiceState?.Channel == null)
+            {
+                await ctx.RespondAsync(EmbedExtensions.GetSuperSimpleDiscordEmbed("Please connect to a voice channel before using the link command"));
+                return;
+            }
             _manager.LinkUserToChannel(ctx.User.Id, ctx.Channel);
+            var channel = ctx.Member.VoiceState?.Channel;
+            await channel.ConnectAsync();
             await ctx.RespondAsync(EmbedExtensions.GetSuperSimpleDiscordEmbed($"I'll now read everything you send to {ctx.Channel.Name}."));
         }
 
@@ -65,7 +72,7 @@ namespace LizBot2._1.Commands
         {
             _manager.UnlinkUser(ctx.User.Id, ctx.Channel);
 
-            await ctx.RespondAsync(EmbedExtensions.GetSuperSimpleDiscordEmbed("I'll now stop reading your text unless you use the explicit -s command"));
+            await ctx.RespondAsync(EmbedExtensions.GetSuperSimpleDiscordEmbed("I'll now stop reading your text unless you use the explicit -t command"));
         }
     }
 }

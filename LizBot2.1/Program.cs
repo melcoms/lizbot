@@ -17,7 +17,7 @@ namespace LizBot2._1
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(GetBasePath())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings2.json", optional: false, reloadOnChange: true)
                 .Build();
 
             var serviceProvider = new ServiceCollection()
