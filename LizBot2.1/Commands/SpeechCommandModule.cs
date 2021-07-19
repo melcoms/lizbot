@@ -2,9 +2,11 @@
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus.VoiceNext;
+using LizBot2._1.Extensions;
 using LizBot2._1.Manager;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -56,6 +58,20 @@ namespace LizBot2._1.Commands
             var connection = vnext.GetConnection(ctx.Guild);
 
             connection.Disconnect();
+        }
+
+        [Command("rr")]
+        [Description​Attribute("try it...?")]
+        public async Task RickRollCommand(CommandContext ctx)
+        {
+            var vnext = ctx.Client.GetVoiceNext();
+            var connection = vnext.GetConnection(ctx.Guild);
+            var transmit = connection.GetTransmitSink();
+
+            var rickRoll = File.ReadAllBytes($"{Directory.GetCurrentDirectory()}\\Resources\\rickroll.wav").MonoToStereo();
+
+            await transmit.WriteAsync(rickRoll);
+            await transmit.FlushAsync();
         }
     }
 }

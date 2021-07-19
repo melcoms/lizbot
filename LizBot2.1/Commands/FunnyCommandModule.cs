@@ -12,13 +12,14 @@ namespace LizBot2._1.Commands
 {
     public class FunnyCommandModule : BaseCommandModule
     {
-        public IDadJokeService Service { get; set; }
+        public IDadJokeService DadJokeService { get; set; }
+        public IEvilInsultService EvilInsultService { get; set; }
 
         [Command("dadjoke")]
         [Description​Attribute("Gets a dad joke.")]
         public async Task DadJokeCommand(CommandContext ctx)
         {
-            var dadJoke = Service.GetDadJoke();
+            var dadJoke = DadJokeService.GetDadJoke();
 
             await ctx.RespondAsync(EmbedExtensions.GetSuperSimpleDiscordEmbed(dadJoke));
         }
@@ -31,7 +32,7 @@ namespace LizBot2._1.Commands
 
             for (int i = 0; i < count; i++)
             {
-                var dadJoke = Service.GetDadJoke();
+                var dadJoke = DadJokeService.GetDadJoke();
 
                 await new DiscordMessageBuilder()
                         .WithContent($"Hey, {mentioned.Mention}! {dadJoke}")
@@ -39,6 +40,16 @@ namespace LizBot2._1.Commands
                         .SendAsync(ctx.Channel);
             }
 
+            ctx.Message.DeleteAsync();
+        }
+
+        [Command("insult")]
+        [Description​Attribute("Insults the mentioned user through a DM.")]
+        public async Task DadJokeCommand(CommandContext ctx, DiscordMember mentioned)
+        {
+            var channel = await mentioned.CreateDmChannelAsync();
+            var evilInsult = EvilInsultService.GetEvilInsult();
+            channel.SendMessageAsync(evilInsult);
             ctx.Message.DeleteAsync();
         }
 

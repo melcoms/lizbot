@@ -28,6 +28,9 @@
     <None Update="Resources\heads-graphic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\rickroll.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\tails-graphic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

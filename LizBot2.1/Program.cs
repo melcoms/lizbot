@@ -27,6 +27,7 @@ namespace LizBot2._1
                 .AddSingleton<Client>()
                 .AddSingleton<IConfiguration>(configuration)
                 .AddScoped<IDadJokeService, DadJokeService>()
+                .AddScoped<IEvilInsultService, EvilInsultService>()
                 .AddSingleton<Random>()
                 .BuildServiceProvider();
 
