@@ -24,6 +24,7 @@ namespace LizBot2._1
                 .AddSingleton<UserManager>()
                 .AddSingleton<VoiceManager>()
                 .AddSingleton<WeatherService>()
+                .AddSingleton<YouTubeService>()
                 .AddSingleton<Client>()
                 .AddSingleton<IConfiguration>(configuration)
                 .AddScoped<IDadJokeService, DadJokeService>()

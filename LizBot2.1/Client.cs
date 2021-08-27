@@ -56,6 +56,8 @@ namespace LizBot2._1
             commands.RegisterCommands<ServerManagementCommandModule>();
             commands.RegisterCommands<WeatherCommandModule>();
             commands.RegisterCommands<FunnyCommandModule>();
+            commands.RegisterCommands<YouTubeCommandModule>();
+
             commands.SetHelpFormatter<HelpFormatter>();
 
             _discordClient.ConnectAsync();
@@ -111,7 +113,6 @@ namespace LizBot2._1
             }
             catch
             {
-                e.Channel.SendMessageAsync("Something went wrong...");
                 return Task.CompletedTask;
             }
         }
