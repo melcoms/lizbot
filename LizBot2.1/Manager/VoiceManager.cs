@@ -34,9 +34,11 @@ namespace LizBot2._1.Manager
 
         public VoiceInfo GetRandomVoice()
         {
-            var rand = _random.Next(0, _voices.Count);
+            var coreVoices = _voices.Where(a => a.Locale.ToLower() == _config["ApiConfig:AzureCognitive:VoiceFilters:Region"]).ToList();
 
-            return _voices.ElementAt(rand);
+            var rand = _random.Next(0, coreVoices.Count);
+
+            return coreVoices.ElementAt(rand);
         }
 
         private SpeechConfig GetConfig() => SpeechConfig.FromSubscription(_config["ApiConfig:AzureCognitive:Key"], _config["ApiConfig:AzureCognitive:Region"]);
@@ -44,8 +46,7 @@ namespace LizBot2._1.Manager
         public async Task LoadVoices()
         {
             var result = await _cognitiveSpeechSynthesizer.GetVoicesAsync();
-            _voices = result.Voices.ToList().Where(a => a.Locale.ToLower() == _config["ApiConfig:AzureCognitive:VoiceFilters:Region"] 
-                                                            && a.VoiceType.ToString().ToLower() == _config["ApiConfig:AzureCognitive:VoiceFilters:Type"]).ToList();
+            _voices = result.Voices.ToList().Where(a => a.VoiceType.ToString().ToLower() == _config["ApiConfig:AzureCognitive:VoiceFilters:Type"]).ToList();
         }
     }
 }

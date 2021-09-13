@@ -6,6 +6,7 @@ using LizBot2._1.Extensions;
 using LizBot2._1.Manager;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,19 +20,23 @@ namespace LizBot2._1.Commands
         [Description​Attribute("Get list of voices available for bot.")]
         public async Task GetVoicesCommand(CommandContext ctx)
         {
-            var voices = _manager.GetVoiceManager().GetListOfVoices();
+            var voices = _manager.GetVoiceManager().GetListOfVoices().ToList();
 
-            var embed = new DiscordEmbedBuilder()
+            for (int i = 0; i < voices.Count; i += 24)
+            {
+                var embed = new DiscordEmbedBuilder()
                 .WithColor(DiscordColor.HotPink)
                 .WithTitle("Supported Voices");
 
-            foreach (var voice in voices)
-            {
-                embed = embed.AddField($"Voice {voices.IndexOf(voice) + 1}", $"{voice.GetFriendlyName()}");
-            };
+                foreach (var voice in voices.Skip(i).Take(24))
+                {
+                    embed = embed.AddField($"Voice {voices.IndexOf(voice) + 1}", $"{voice.GetFriendlyName()} - {voice.Locale}");
+                };
 
-            await ctx.RespondAsync(embed);
+                await ctx.RespondAsync(embed);
+            }
         }
+
 
         [Command("selectvoice")]
         [Description​Attribute("Select a voice from the voice list (-getvoices) for bot to use when speaking for you.")]
